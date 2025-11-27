@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBMS Lab Manual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs-container {
+            background-color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            padding: 0 1rem;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #555;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        
+        .tab:hover {
+            color: #2c3e50;
+            background-color: #f0f3f7;
+        }
+        
+        .tab.active {
+            color: #3498db;
+            border-bottom: 3px solid #3498db;
+        }
+        
+        .content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .tab-content {
+            display: none;
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        h3 {
+            color: #3498db;
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .sql-code {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+        }
+        
+        .sql-comment {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .sql-keyword {
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .sql-string {
+            color: #e74c3c;
+        }
+        
+        .sql-function {
+            color: #9b59b6;
+        }
+        
+        .note {
+            background-color: #fff9e6;
+            border-left: 4px solid #f1c40f;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #2c3e50;
+            color: white;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                padding: 0;
+            }
+            
+            .tab {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .content {
+                padding: 0 1rem;
+            }
+            
+            .tab-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DBMS Lab Manual</h1>
+        <p class="subtitle">Database Management Systems Practical Implementation</p>
+    </header>
+    
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab active" data-tab="practical1">Practical 1</button>
+            <button class="tab" data-tab="practical2">Practical 2</button>
+            <button class="tab" data-tab="practical3">Practical 3</button>
+            <button class="tab" data-tab="practical4">Practical 4</button>
+            <button class="tab" data-tab="practical5">Practical 5</button>
+            <button class="tab" data-tab="practical6">Practical 6</button>
+            <button class="tab" data-tab="practical7">Practical 7</button>
+            <button class="tab" data-tab="practical8">Practical 8</button>
+            <button class="tab" data-tab="practical9">Practical 9</button>
+            <button class="tab" data-tab="practical10">Practical 10</button>
+        </div>
+    </div>
+    
+    <div class="content">
+        <!-- Practical 1 Content -->
+        <div id="practical1" class="tab-content active">
+            <h2>Experiment-I: Database Schema and ERD</h2>
+            <p><strong>Aim:</strong> Create a database schema and ERD for any application.</p>
+            
+            <h3>College Database Schema</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Create College Database</span>
+CREATE DATABASE college_db;
+USE college_db;
+
+<span class="sql-comment">-- Create STUDENT table</span>
+CREATE TABLE STUDENT (
+    USN VARCHAR(20) PRIMARY KEY,
+    SName VARCHAR(50) NOT NULL,
+    Address VARCHAR(100),
+    Phone VARCHAR(15),
+    Gender CHAR(1)
+);
+
+<span class="sql-comment">-- Create SEMSEC table</span>
+CREATE TABLE SEMSEC (
+    SSID VARCHAR(10) PRIMARY KEY,
+    Sem INT,
+    Sec CHAR(1)
+);
+
+<span class="sql-comment">-- Create CLASS table</span>
+CREATE TABLE CLASS (
+    USN VARCHAR(20),
+    SSID VARCHAR(10),
+    PRIMARY KEY (USN, SSID),
+    FOREIGN KEY (USN) REFERENCES STUDENT(USN),
+    FOREIGN KEY (SSID) REFERENCES SEMSEC(SSID)
+);
+
+<span class="sql-comment">-- Create SUBJECT table</span>
+CREATE TABLE SUBJECT (
+    Subcode VARCHAR(10) PRIMARY KEY,
+    Title VARCHAR(50) NOT NULL,
+    Sem INT,
+    Credits INT
+);
+
+<span class="sql-comment">-- Create IAMARKS table</span>
+CREATE TABLE IAMARKS (
+    USN VARCHAR(20),
+    Subcode VARCHAR(10),
+    SSID VARCHAR(10),
+    Test1 DECIMAL(5,2),
+    Test2 DECIMAL(5,2),
+    Test3 DECIMAL(5,2),
+    FinalIA DECIMAL(5,2),
+    PRIMARY KEY (USN, Subcode, SSID),
+    FOREIGN KEY (USN) REFERENCES STUDENT(USN),
+    FOREIGN KEY (Subcode) REFERENCES SUBJECT(Subcode),
+    FOREIGN KEY (SSID) REFERENCES SEMSEC(SSID)
+);
+            </div>
+            
+            <div class="note">
+                <strong>Note:</strong> The Entity Relationship Diagram (ERD) for this database would visually represent the relationships between these tables.
+            </div>
+        </div>
+        
+        <!-- Practical 2 Content -->
+        <div id="practical2" class="tab-content">
+            <h2>Experiment-II: Table Creation and Data Constraints</h2>
+            <p><strong>Aim:</strong> Creating tables, Renaming tables, Data constraints (Primary key, Foreign key, Not Null), Data Insertion into a table.</p>
+            
+            <h3>University Database Creation</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Create University Database</span>
+CREATE DATABASE university_db;
+USE university_db;
+
+<span class="sql-comment">-- Create department table</span>
+CREATE TABLE department (
+    dept_name VARCHAR(20) PRIMARY KEY,
+    building VARCHAR(15),
+    budget NUMERIC(12,2)
+);
+
+<span class="sql-comment">-- Create instructor table</span>
+CREATE TABLE instructor (
+    ID VARCHAR(5) PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
+    dept_name VARCHAR(20),
+    salary NUMERIC(8,2),
+    FOREIGN KEY (dept_name) REFERENCES department(dept_name)
+);
+
+<span class="sql-comment">-- Create course table</span>
+CREATE TABLE course (
+    course_id VARCHAR(7) PRIMARY KEY,
+    title VARCHAR(50),
+    dept_name VARCHAR(20),
+    credits NUMERIC(2,0),
+    FOREIGN KEY (dept_name) REFERENCES department(dept_name)
+);
+
+<span class="sql-comment">-- Create section table</span>
+CREATE TABLE section (
+    course_id VARCHAR(8),
+    sec_id VARCHAR(8),
+    semester VARCHAR(6),
+    year NUMERIC(4,0),
+    building VARCHAR(15),
+    room_number VARCHAR(7),
+    time_slot_id VARCHAR(4),
+    PRIMARY KEY (course_id, sec_id, semester, year),
+    FOREIGN KEY (course_id) REFERENCES course(course_id)
+);
+
+<span class="sql-comment">-- Create teaches table</span>
+CREATE TABLE teaches (
+    ID VARCHAR(5),
+    course_id VARCHAR(8),
+    sec_id VARCHAR(8),
+    semester VARCHAR(6),
+    year NUMERIC(4,0),
+    PRIMARY KEY (ID, course_id, sec_id, semester, year),
+    FOREIGN KEY (course_id, sec_id, semester, year) REFERENCES section(course_id, sec_id, semester, year),
+    FOREIGN KEY (ID) REFERENCES instructor(ID)
+);
+
+<span class="sql-comment">-- Create student table</span>
+CREATE TABLE student (
+    ID VARCHAR(5) PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
+    dept_name VARCHAR(20),
+    tot_cred INT,
+    FOREIGN KEY (dept_name) REFERENCES department(dept_name)
+);
+
+<span class="sql-comment">-- Create takes table</span>
+CREATE TABLE takes (
+    ID VARCHAR(5),
+    course_id VARCHAR(8),
+    sec_id VARCHAR(8),
+    semester VARCHAR(6),
+    year NUMERIC(4,0),
+    grade VARCHAR(4),
+    FOREIGN KEY (course_id, sec_id, semester, year) REFERENCES section(course_id, sec_id, semester, year),
+    FOREIGN KEY (ID) REFERENCES student(ID)
+);
+            </div>
+            
+            <h3>Data Insertion Examples</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Insert data into department table</span>
+INSERT INTO department (dept_name, building, budget) VALUES
+('Biology', 'Watson', 90000),
+('Comp. Sci.', 'Taylor', 100000),
+('Elec. Eng.', 'Taylor', 85000),
+('Finance', 'Painter', 120000),
+('History', 'Painter', 50000),
+('Music', 'Packard', 80000),
+('Physics', 'Watson', 70000);
+
+<span class="sql-comment">-- Insert data into instructor table</span>
+INSERT INTO instructor (ID, name, dept_name, salary) VALUES
+('10101', 'Srinivasan', 'Comp. Sci.', 65000),
+('12121', 'Wu', 'Finance', 90000),
+('15151', 'Mozart', 'Music', 40000),
+('22222', 'Einstein', 'Physics', 95000),
+('32343', 'El Said', 'History', 60000),
+('33456', 'Gold', 'Physics', 87000),
+('45565', 'Katz', 'Comp. Sci.', 75000),
+('58583', 'Califieri', 'History', 62000),
+('76543', 'Singh', 'Finance', 80000),
+('76766', 'Crick', 'Biology', 72000),
+('83821', 'Brandt', 'Comp. Sci.', 92000),
+('98345', 'Kim', 'Elec. Eng.', 80000);
+            </div>
+        </div>
+        
+        <!-- Practical 3 Content -->
+        <div id="practical3" class="tab-content">
+            <h2>Experiment-III: SET Operations and Aggregate Functions</h2>
+            <p><strong>Aim:</strong> Execution of SET operations, aggregate functions.</p>
+            
+            <h3>SET Operations</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- UNION: Find courses taught in Fall 2009 or Spring 2010</span>
+(SELECT course_id FROM section WHERE semester = 'Fall' AND year = 2009)
+UNION
+(SELECT course_id FROM section WHERE semester = 'Spring' AND year = 2010);
+
+<span class="sql-comment">-- UNION ALL: Find courses with duplicates</span>
+(SELECT course_id FROM section WHERE semester = 'Fall' AND year = 2009)
+UNION ALL
+(SELECT course_id FROM section WHERE semester = 'Spring' AND year = 2010);
+
+<span class="sql-comment">-- INTERSECT (using INNER JOIN): Find courses taught in both Fall 2009 and Spring 2010</span>
+SELECT DISTINCT s1.course_id
+FROM section s1
+INNER JOIN section s2 ON s1.course_id = s2.course_id
+WHERE s1.semester = 'Fall' AND s1.year = 2009
+AND s2.semester = 'Spring' AND s2.year = 2010;
+
+<span class="sql-comment">-- EXCEPT (using NOT IN): Find courses taught in Fall 2009 but not in Spring 2010</span>
+SELECT DISTINCT course_id
+FROM section
+WHERE semester = 'Fall' AND year = 2009
+AND course_id NOT IN (
+    SELECT course_id 
+    FROM section 
+    WHERE semester = 'Spring' AND year = 2010
+);
+            </div>
+            
+            <h3>Aggregate Functions</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Find average salary of instructors in Computer Science department</span>
+SELECT AVG(salary) AS avg_salary
+FROM instructor
+WHERE dept_name = 'Comp. Sci.';
+
+<span class="sql-comment">-- Count distinct instructors who teach in Spring 2010</span>
+SELECT COUNT(DISTINCT ID) AS instructor_count
+FROM teaches
+WHERE semester = 'Spring' AND year = 2010;
+
+<span class="sql-comment">-- Count total number of courses</span>
+SELECT COUNT(*) AS total_courses
+FROM course;
+
+<span class="sql-comment">-- Find maximum and minimum salary</span>
+SELECT MAX(salary) AS max_salary, MIN(salary) AS min_salary
+FROM instructor;
+
+<span class="sql-comment">-- Find total budget of all departments</span>
+SELECT SUM(budget) AS total_budget
+FROM department;
+            </div>
+        </div>
+        
+        <!-- Practical 4 Content -->
+        <div id="practical4" class="tab-content">
+            <h2>Experiment-IV: Grouping of Data</h2>
+            <p><strong>Aim:</strong> On Created database perform Grouping of data.</p>
+            
+            <h3>GROUP BY Clause</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Find average salary in each department</span>
+SELECT dept_name, AVG(salary) AS avg_salary
+FROM instructor
+GROUP BY dept_name;
+
+<span class="sql-comment">-- Find number of instructors in each department teaching in Spring 2010</span>
+SELECT dept_name, COUNT(DISTINCT instructor.ID) AS instr_count
+FROM instructor
+NATURAL JOIN teaches
+WHERE semester = 'Spring' AND year = 2010
+GROUP BY dept_name;
+            </div>
+            
+            <h3>HAVING Clause</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Find departments with average salary greater than 42000</span>
+SELECT dept_name, AVG(salary) AS avg_salary
+FROM instructor
+GROUP BY dept_name
+HAVING AVG(salary) > 42000;
+
+<span class="sql-comment">-- For each course section in 2009, find average total credits if section had at least 2 students</span>
+SELECT course_id, semester, year, sec_id, AVG(tot_cred) AS avg_credits
+FROM takes
+NATURAL JOIN student
+WHERE year = 2009
+GROUP BY course_id, semester, year, sec_id
+HAVING COUNT(ID) >= 2;
+            </div>
+            
+            <h3>ORDER BY Clause</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- List instructors in Physics department in alphabetical order</span>
+SELECT name
+FROM instructor
+WHERE dept_name = 'Physics'
+ORDER BY name;
+
+<span class="sql-comment">-- List all instructors in descending order of salary, then ascending order by name</span>
+SELECT *
+FROM instructor
+ORDER BY salary DESC, name ASC;
+            </div>
+        </div>
+        
+        <!-- Practical 5 Content -->
+        <div id="practical5" class="tab-content">
+            <h2>Experiment-V: MySQL Built-In Functions</h2>
+            <p><strong>Aim:</strong> Perform MySQL Built-In functions (mathematical, character functions).</p>
+            
+            <h3>String Functions</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Convert string to upper and lower case</span>
+SELECT UPPER(name) AS upper_name, LOWER(name) AS lower_name
+FROM instructor;
+
+<span class="sql-comment">-- Get length of strings</span>
+SELECT name, LENGTH(name) AS byte_length, CHAR_LENGTH(name) AS char_length
+FROM instructor;
+
+<span class="sql-comment">-- Extract substrings</span>
+SELECT name, 
+       SUBSTRING(name, 1, 3) AS first_three_chars,
+       LEFT(name, 3) AS left_three,
+       RIGHT(name, 3) AS right_three
+FROM instructor;
+
+<span class="sql-comment">-- Reverse and repeat strings</span>
+SELECT name, REVERSE(name) AS reversed_name, REPEAT(name, 2) AS repeated_name
+FROM instructor;
+
+<span class="sql-comment">-- Replace and trim functions</span>
+SELECT 
+    name,
+    REPLACE(name, 'a', '@') AS replaced_name,
+    CONCAT('*', RTRIM(LTRIM(name)), '*') AS trimmed_name
+FROM instructor;
+            </div>
+            
+            <h3>Numeric Functions</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Basic numeric operations</span>
+SELECT 
+    salary,
+    ABS(salary) AS absolute_value,
+    CEIL(salary) AS ceiling_value,
+    FLOOR(salary) AS floor_value,
+    ROUND(salary, 0) AS rounded_value
+FROM instructor;
+
+<span class="sql-comment">-- Mathematical functions</span>
+SELECT 
+    salary,
+    SQRT(salary) AS square_root,
+    POWER(salary, 2) AS squared,
+    MOD(salary, 1000) AS modulus,
+    SIGN(salary) AS sign_value
+FROM instructor;
+
+<span class="sql-comment">-- Aggregate numeric functions</span>
+SELECT 
+    AVG(salary) AS avg_salary,
+    MAX(salary) AS max_salary,
+    MIN(salary) AS min_salary,
+    SUM(salary) AS total_salary,
+    COUNT(*) AS total_instructors
+FROM instructor;
+            </div>
+        </div>
+        
+        <!-- Practical 6 Content -->
+        <div id="practical6" class="tab-content">
+            <h2>Experiment-VI: Views and Joins</h2>
+            <p><strong>Aim:</strong> Implementation of Views and Joins in database.</p>
+            
+            <h3>Views</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Create a view for Computer Science instructors</span>
+CREATE VIEW cs_instructors AS
+SELECT ID, name, salary
+FROM instructor
+WHERE dept_name = 'Comp. Sci.';
+
+<span class="sql-comment">-- Create a view for student course information</span>
+CREATE VIEW student_courses AS
+SELECT s.ID, s.name, t.course_id, t.grade
+FROM student s
+JOIN takes t ON s.ID = t.ID;
+
+<span class="sql-comment">-- Query the views</span>
+SELECT * FROM cs_instructors;
+SELECT * FROM student_courses WHERE grade = 'A';
+            </div>
+            
+            <h3>Joins</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- INNER JOIN: Find instructors and the courses they teach</span>
+SELECT i.name, t.course_id
+FROM instructor i
+INNER JOIN teaches t ON i.ID = t.ID;
+
+<span class="sql-comment">-- NATURAL JOIN: Find instructors and courses they teach</span>
+SELECT name, course_id
+FROM instructor
+NATURAL JOIN teaches;
+
+<span class="sql-comment">-- LEFT JOIN: Find all students and courses they've taken (if any)</span>
+SELECT s.name, t.course_id, t.grade
+FROM student s
+LEFT JOIN takes t ON s.ID = t.ID;
+
+<span class="sql-comment">-- RIGHT JOIN: Find all courses and students who took them</span>
+SELECT t.course_id, s.name
+FROM takes t
+RIGHT JOIN student s ON t.ID = s.ID;
+
+<span class="sql-comment">-- FULL OUTER JOIN (simulated with UNION): Find all students and all courses</span>
+SELECT s.ID, s.name, t.course_id
+FROM student s
+LEFT JOIN takes t ON s.ID = t.ID
+UNION
+SELECT s.ID, s.name, t.course_id
+FROM student s
+RIGHT JOIN takes t ON s.ID = t.ID;
+            </div>
+        </div>
+        
+        <!-- Practical 7 Content -->
+        <div id="practical7" class="tab-content">
+            <h2>Experiment-VII: Sub-queries in MySQL</h2>
+            <p><strong>Aim:</strong> Implementation of Sub-queries in MySQL.</p>
+            
+            <h3>Subqueries with IN and NOT IN</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Find courses taught in both Fall 2009 and Spring 2010</span>
+SELECT DISTINCT course_id
+FROM section
+WHERE semester = 'Fall' AND year = 2009
+AND course_id IN (
+    SELECT course_id 
+    FROM section 
+    WHERE semester = 'Spring' AND year = 2010
+);
+
+<span class="sql-comment">-- Find courses taught in Fall 2009 but not in Spring 2010</span>
+SELECT DISTINCT course_id
+FROM section
+WHERE semester = 'Fall' AND year = 2009
+AND course_id NOT IN (
+    SELECT course_id 
+    FROM section 
+    WHERE semester = 'Spring' AND year = 2010
+);
+
+<span class="sql-comment">-- Find instructors not named Mozart or Einstein</span>
+SELECT DISTINCT name
+FROM instructor
+WHERE name NOT IN ('Mozart', 'Einstein');
+            </div>
+            
+            <h3>Subqueries with Comparison Operators</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Find instructors with salary greater than at least one Biology instructor</span>
+SELECT name
+FROM instructor
+WHERE salary > SOME (
+    SELECT salary 
+    FROM instructor 
+    WHERE dept_name = 'Biology'
+);
+
+<span class="sql-comment">-- Find instructors with salary greater than all Biology instructors</span>
+SELECT name
+FROM instructor
+WHERE salary > ALL (
+    SELECT salary 
+    FROM instructor 
+    WHERE dept_name = 'Biology'
+);
+            </div>
+            
+            <h3>Correlated Subqueries</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Find courses taught in both Fall 2009 and Spring 2010 using EXISTS</span>
+SELECT course_id
+FROM section S
+WHERE semester = 'Fall' AND year = 2009
+AND EXISTS (
+    SELECT * 
+    FROM section T 
+    WHERE semester = 'Spring' AND year = 2010
+    AND S.course_id = T.course_id
+);
+
+<span class="sql-comment">-- Find students who have taken all Biology courses</span>
+SELECT DISTINCT S.ID, S.name
+FROM student S
+WHERE NOT EXISTS (
+    (SELECT course_id FROM course WHERE dept_name = 'Biology')
+    EXCEPT
+    (SELECT T.course_id FROM takes T WHERE S.ID = T.ID)
+);
+            </div>
+            
+            <h3>Subqueries in FROM Clause</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Find departments with average salary greater than 42000</span>
+SELECT dept_name, avg_salary
+FROM (
+    SELECT dept_name, AVG(salary) AS avg_salary
+    FROM instructor
+    GROUP BY dept_name
+) AS dept_avg
+WHERE avg_salary > 42000;
+
+<span class="sql-comment">-- Find maximum total salary across departments</span>
+SELECT MAX(tot_salary) AS max_total_salary
+FROM (
+    SELECT dept_name, SUM(salary) AS tot_salary
+    FROM instructor
+    GROUP BY dept_name
+) AS dept_total;
+            </div>
+        </div>
+        
+        <!-- Practical 8 Content -->
+        <div id="practical8" class="tab-content">
+            <h2>Experiment-VIII: Triggers</h2>
+            <p><strong>Aim:</strong> Apply Triggers (Creation of insert trigger, delete trigger, update trigger).</p>
+            
+            <h3>Creating Tables for Trigger Examples</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Create EMPLOYEES table</span>
+CREATE TABLE EMPLOYEES (
+    EMPLOYEE_ID INT PRIMARY KEY,
+    FIRST_NAME VARCHAR(20),
+    LAST_NAME VARCHAR(20),
+    HOURLY_PAY NUMERIC(6,2),
+    SALARY NUMERIC(10,2),
+    JOB VARCHAR(10)
+);
+
+<span class="sql-comment">-- Insert sample data</span>
+INSERT INTO EMPLOYEES VALUES 
+(1, 'JOHN', 'KARL', 25.5, 53040.00, 'MANAGER'),
+(2, 'JAMES', 'SMITH', 15.00, 31200.00, 'CASHIER'),
+(3, 'JACK', 'CLINTON', 12.5, 26000.00, 'COOK');
+
+<span class="sql-comment">-- Create EXPENSES table</span>
+CREATE TABLE EXPENSES (
+    EXPENSE_ID INT PRIMARY KEY,
+    EXPENSE_NAME VARCHAR(50),
+    EXPENSE_TOTAL DECIMAL(10,2)
+);
+
+<span class="sql-comment">-- Insert sample data</span>
+INSERT INTO EXPENSES VALUES 
+(1, 'SALARIES', 0),
+(2, 'SUPPLIES', 0),
+(3, 'TAXES', 0);
+            </div>
+            
+            <h3>Creating Triggers</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- BEFORE UPDATE trigger: Update salary when hourly pay changes</span>
+CREATE TRIGGER BEFORE_HOURLY_PAY_UPDATE
+BEFORE UPDATE ON EMPLOYEES
+FOR EACH ROW
+SET NEW.SALARY = (NEW.HOURLY_PAY * 2080);
+
+<span class="sql-comment">-- BEFORE INSERT trigger: Calculate salary for new employees</span>
+CREATE TRIGGER BEFORE_HOURLY_PAY_INSERT
+BEFORE INSERT ON EMPLOYEES
+FOR EACH ROW
+SET NEW.SALARY = (NEW.HOURLY_PAY * 2080);
+
+<span class="sql-comment">-- AFTER DELETE trigger: Update expenses when employee is deleted</span>
+CREATE TRIGGER AFTER_SALARY_DELETE
+AFTER DELETE ON EMPLOYEES
+FOR EACH ROW
+UPDATE EXPENSES
+SET EXPENSE_TOTAL = EXPENSE_TOTAL - OLD.SALARY
+WHERE EXPENSE_NAME = 'SALARIES';
+
+<span class="sql-comment">-- AFTER INSERT trigger: Update expenses when new employee is added</span>
+CREATE TRIGGER AFTER_SALARY_INSERT
+AFTER INSERT ON EMPLOYEES
+FOR EACH ROW
+UPDATE EXPENSES
+SET EXPENSE_TOTAL = EXPENSE_TOTAL + NEW.SALARY
+WHERE EXPENSE_NAME = 'SALARIES';
+
+<span class="sql-comment">-- AFTER UPDATE trigger: Update expenses when salary changes</span>
+CREATE TRIGGER AFTER_SALARY_UPDATE
+AFTER UPDATE ON EMPLOYEES
+FOR EACH ROW
+UPDATE EXPENSES
+SET EXPENSE_TOTAL = EXPENSE_TOTAL + (NEW.SALARY - OLD.SALARY)
+WHERE EXPENSE_NAME = 'SALARIES';
+            </div>
+        </div>
+        
+        <!-- Practical 9 Content -->
+        <div id="practical9" class="tab-content">
+            <h2>Experiment-IX: Normal Forms</h2>
+            <p><strong>Aim:</strong> Apply Normal Forms: First, Second, Third and Boyce Codd Normal Forms on Application database.</p>
+            
+            <h3>First Normal Form (1NF)</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Original table (not in 1NF)</span>
+CREATE TABLE EMPLOYEE_NOT_1NF (
+    EMP_ID INT,
+    EMP_NAME VARCHAR(50),
+    EMP_PHONE VARCHAR(100), <span class="sql-comment">-- Multiple phone numbers stored as comma-separated values</span>
+    EMP_STATE VARCHAR(50)
+);
+
+<span class="sql-comment">-- Table in 1NF</span>
+CREATE TABLE EMPLOYEE_1NF (
+    EMP_ID INT,
+    EMP_NAME VARCHAR(50),
+    EMP_PHONE VARCHAR(15), <span class="sql-comment">-- Single phone number per row</span>
+    EMP_STATE VARCHAR(50)
+);
+            </div>
+            
+            <h3>Second Normal Form (2NF)</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Original table (not in 2NF)</span>
+CREATE TABLE TEACHER_NOT_2NF (
+    TEACHER_ID INT,
+    SUBJECT VARCHAR(50),
+    TEACHER_AGE INT,
+    PRIMARY KEY (TEACHER_ID, SUBJECT)
+);
+
+<span class="sql-comment">-- Tables in 2NF</span>
+CREATE TABLE TEACHER_DETAIL (
+    TEACHER_ID INT PRIMARY KEY,
+    TEACHER_AGE INT
+);
+
+CREATE TABLE TEACHER_SUBJECT (
+    TEACHER_ID INT,
+    SUBJECT VARCHAR(50),
+    PRIMARY KEY (TEACHER_ID, SUBJECT),
+    FOREIGN KEY (TEACHER_ID) REFERENCES TEACHER_DETAIL(TEACHER_ID)
+);
+            </div>
+            
+            <h3>Third Normal Form (3NF)</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Original table (not in 3NF)</span>
+CREATE TABLE EMPLOYEE_DETAIL_NOT_3NF (
+    EMP_ID INT PRIMARY KEY,
+    EMP_NAME VARCHAR(50),
+    EMP_ZIP VARCHAR(10),
+    EMP_STATE VARCHAR(50),
+    EMP_CITY VARCHAR(50)
+);
+
+<span class="sql-comment">-- Tables in 3NF</span>
+CREATE TABLE EMPLOYEE_3NF (
+    EMP_ID INT PRIMARY KEY,
+    EMP_NAME VARCHAR(50),
+    EMP_ZIP VARCHAR(10),
+    FOREIGN KEY (EMP_ZIP) REFERENCES EMPLOYEE_ZIP(EMP_ZIP)
+);
+
+CREATE TABLE EMPLOYEE_ZIP (
+    EMP_ZIP VARCHAR(10) PRIMARY KEY,
+    EMP_STATE VARCHAR(50),
+    EMP_CITY VARCHAR(50)
+);
+            </div>
+            
+            <h3>Boyce-Codd Normal Form (BCNF)</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Original table (not in BCNF)</span>
+CREATE TABLE EMPLOYEE_NOT_BCNF (
+    EMP_ID INT,
+    EMP_COUNTRY VARCHAR(50),
+    EMP_DEPT VARCHAR(50),
+    DEPT_TYPE VARCHAR(10),
+    EMP_DEPT_NO INT,
+    PRIMARY KEY (EMP_ID, EMP_DEPT)
+);
+
+<span class="sql-comment">-- Tables in BCNF</span>
+CREATE TABLE EMP_COUNTRY_BCNF (
+    EMP_ID INT PRIMARY KEY,
+    EMP_COUNTRY VARCHAR(50)
+);
+
+CREATE TABLE EMP_DEPT_BCNF (
+    EMP_DEPT VARCHAR(50) PRIMARY KEY,
+    DEPT_TYPE VARCHAR(10),
+    EMP_DEPT_NO INT
+);
+
+CREATE TABLE EMP_DEPT_MAPPING_BCNF (
+    EMP_ID INT,
+    EMP_DEPT VARCHAR(50),
+    PRIMARY KEY (EMP_ID, EMP_DEPT),
+    FOREIGN KEY (EMP_ID) REFERENCES EMP_COUNTRY_BCNF(EMP_ID),
+    FOREIGN KEY (EMP_DEPT) REFERENCES EMP_DEPT_BCNF(EMP_DEPT)
+);
+            </div>
+        </div>
+        
+        <!-- Practical 10 Content -->
+        <div id="practical10" class="tab-content">
+            <h2>Experiment-X: Transaction Processing</h2>
+            <p><strong>Aim:</strong> Transaction Processing.</p>
+            
+            <h3>Creating Table for Transaction Examples</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Create ACCOUNTINFO table</span>
+CREATE TABLE ACCOUNTINFO (
+    ACCOUNT_NUMBER VARCHAR(16) PRIMARY KEY,
+    FIRST_NAME VARCHAR(20),
+    LAST_NAME VARCHAR(20),
+    BRANCH VARCHAR(10),
+    BALANCE NUMERIC(10,2)
+);
+            </div>
+            
+            <h3>Transaction Control Language (TCL) Commands</h3>
+            <div class="sql-code">
+<span class="sql-comment">-- Start transaction and insert data</span>
+START TRANSACTION;
+
+INSERT INTO ACCOUNTINFO VALUES
+('456321456', 'SUNNY', 'AHUJA', 'WARDHA', 5000),
+('456321258', 'MONTY', 'KAPOOR', 'NAGPUR', 6000),
+('456589763', 'KOMAL', 'SINGH', 'AMARAVTI', 3000),
+('456345698', 'ABHILASHA', 'SHARMA', 'YAVATMAL', 2000);
+
+COMMIT;
+
+<span class="sql-comment">-- Delete a record and then rollback</span>
+START TRANSACTION;
+
+DELETE FROM ACCOUNTINFO WHERE FIRST_NAME = 'MONTY';
+
+<span class="sql-comment">-- Check the table (MONTY record is deleted)</span>
+SELECT * FROM ACCOUNTINFO;
+
+ROLLBACK;
+
+<span class="sql-comment">-- Check the table again (MONTY record is restored)</span>
+SELECT * FROM ACCOUNTINFO;
+
+<span class="sql-comment">-- Using SAVEPOINT</span>
+START TRANSACTION;
+
+SAVEPOINT UPD;
+
+UPDATE ACCOUNTINFO SET BALANCE = 10000 WHERE FIRST_NAME = 'KOMAL';
+
+<span class="sql-comment">-- Check the table (KOMAL's balance is updated)</span>
+SELECT * FROM ACCOUNTINFO;
+
+ROLLBACK TO UPD;
+
+<span class="sql-comment">-- Check the table again (KOMAL's balance is reverted)</span>
+SELECT * FROM ACCOUNTINFO;
+
+COMMIT;
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>DBMS Lab Manual &copy; 2023 | Database Management Systems Practical Implementation</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
